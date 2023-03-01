@@ -1,8 +1,8 @@
 package com.entertainment;
 import java.util.Objects;
 
-public class Television {
-    private Brands brand;
+public class Television implements Comparable<Television> {
+    private String brand;
     private static final int MAX_VOLUME = 100;
     private static final int MIN_VOLUME = 0;
     private int volume = 0;
@@ -11,19 +11,19 @@ public class Television {
     public Television() {
     }
 
-    public Television(Brands brand) {
+    public Television(String brand) {
         this();
         setBrand(brand);
     }
 
-    public Television(Brands brand, int volume) {
+    public Television(String brand, int volume) {
         this(brand);
         setVolume(volume);
     }
 
     // Getters
 
-    public Brands getBrand() {
+    public String getBrand() {
         return brand;
     }
 
@@ -37,7 +37,7 @@ public class Television {
 
     // Mutators
 
-    public void setBrand(Brands brand) {
+    public void setBrand(String brand) {
         this.brand = brand;
     }
 
@@ -50,25 +50,55 @@ public class Television {
                     MIN_VOLUME);
     }
 
-    public void setChannel(int channel) {
+    public void changeChannel(int channel) {
         tuner.setChannel(channel);
     }
 
     //Overloaded functions
 
-    public boolean equals(Object tv) {
-        boolean result = false;
-        if(tv instanceof Television) { //Objects.equals is null safe check
-            result = Objects.equals(this.getBrand(), ((Television) tv).getBrand()) &&
-                    this.getVolume() == ((Television) tv).getVolume();
+//    @Override
+//    public boolean equals(Object tv) {
+//        boolean result = false;
+//        if (this == tv) {
+//            result = true;
+//        }
+//        else if(tv != null && (this.getClass() == tv.getClass())) { //Objects.equals is null safe check
+//            Television other = (Television) tv;
+//            result = (Objects.equals(this.getBrand(), other.getBrand()) &&
+//                    (this.getVolume() == other.getVolume()));
+//        }
+//        return result;
+//    }
+//
+//    @Override
+//    public int hashCode() {
+//        //return getBrand().hashCode() + getVolume();
+//        return Objects.hash(getBrand(),getVolume());
+//    }
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Television that = (Television) o;
+        return getVolume() == that.getVolume() && Objects.equals(getBrand(), that.getBrand());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getBrand(), getVolume());
+    }
+
+    @Override
+    public int compareTo(Television other) {
+        int result = this.getBrand().compareTo(other.getBrand());
+        if(result == 0){
+            result = Integer.compare(this.getVolume(), other.getVolume());
         }
         return result;
     }
 
-    public int hashCode() {
-        //return getBrand().hashCode() + getVolume();
-        return Objects.hash(getBrand(),getVolume());
-    }
 
     @Override
     public String toString() {

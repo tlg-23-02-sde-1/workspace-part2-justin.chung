@@ -70,19 +70,15 @@ public class InMemoryCatalog implements Catalog {
         return null;
     }
 
-    // TODO: Make searches case insensitive
-
     public Collection<MusicItem> findByKeyword(String keyword) {
         Collection<MusicItem> result = new ArrayList<>();
         for(MusicItem item: catalogData) {
-            if(item.getTitle().contains(keyword) || item.getArtist().contains(keyword)) {
+            if(item.getTitle().toLowerCase().contains(keyword.toLowerCase())
+            || (item.getArtist().toLowerCase().contains(keyword.toLowerCase()))) {
                 result.add(item);
             }
         }
-        if(result.isEmpty())
-            return null;
-        else
-            return result;
+        return result;
     }
 
     public Collection<MusicItem> findByCategory(MusicCategory category) {
@@ -92,10 +88,7 @@ public class InMemoryCatalog implements Catalog {
                 result.add(item);
             }
         }
-        if(result.isEmpty())
-            return null;
-        else
-            return result;
+        return result;
     }
 
     public int size() {
@@ -254,10 +247,7 @@ public class InMemoryCatalog implements Catalog {
                 }
             }
         }
-        if(result.isEmpty())
-            return null;
-        else
-            return result;
+        return result;
     }
 
 

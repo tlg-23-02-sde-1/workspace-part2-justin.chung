@@ -12,6 +12,7 @@ public class InvalidChannelException
 extends Exception {
   
   public InvalidChannelException() {
+    super();
   }
 
   public InvalidChannelException(String message) {
